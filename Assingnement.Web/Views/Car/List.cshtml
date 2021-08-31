@@ -1,0 +1,98 @@
+﻿@model Assingnement.Data.ViewModel.CarPaggingListVM
+
+@{ 
+    string message = "";
+    if (ViewData["Message"] != null || ((string)ViewData["Message"]).Length > 0)
+    {
+        message = (string)ViewData["Message"];
+        ViewData["Message"] = "";
+    }
+
+    string name = "Car";
+}
+
+<div class="text-center">
+    <div class="container" style="margin-bottom:1rem">
+
+        @await Html.PartialAsync("../Shared/_ListToolbar", Model.ToolbarData)
+
+        @if (message.Length > 0)
+        {
+
+            <div class="alert alert-info fade show" role="alert">
+                @message
+            </div>
+
+        }
+
+        <div class="row">
+            <div class="col">
+                <a id="btn-new" class="btn btn-success btn-lg btn-block" style="margin-bottom:1rem"
+                   asp-controller="@name" asp-action="edit">Create New @name</a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+
+                @if ((Model == null || !Model.Records.Any()) && ViewData["CurrentFilter"] == null)
+                {
+                    <div class="jumbotron jumbotron-fluid">
+                        <div class="container">
+                            <h1 class="display-4">There is no any @name 😢</h1>
+                            <p class="lead">You can add a @name!</p>
+                        </div>
+                    </div>
+                }
+                else if (Model.Records.Count == 0)
+                {
+                    <div class="jumbotron jumbotron-fluid">
+                        <div class="container">
+                            <h1 class="display-4">There is no any @name 😢</h1>
+                            <p class="lead">Try to search different keywords or clean filters</p>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Registration Number</th>
+                                <th scope="col">Color</th>
+                                <th scope="col">Bought Year</th>
+                                <th scope="col">Owner</th>
+                                <th scope="col">Model</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Records)
+                            {
+                                <tr>
+                                    <th scope="row">@item.RegistrationNumber</th>
+                                    <th scope="row">@item.Color</th>
+                                    <th scope="row">@item.BoughtYear</th>
+
+                                    <th scope="row"><a asp-controller="Owner" asp-action="Edit" asp-route-id="@item.OwnerId">@item.OwnerName</a></th>
+                                    <th scope="row"><a asp-controller="Model" asp-action="Edit" asp-route-id="@item.ModelId">@item.ModelName</a></th>
+
+                                    <td>
+                                        <a class="btn btn-sm btn-primary" type="button" asp-action="edit"
+                                           asp-route-id="@item.Id">Edit</a>
+                                        <a class="btn btn-sm btn-danger" type="button" asp-action="delete"
+                                           asp-route-id="@item.Id">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+
+        @await Html.PartialAsync("../Shared/_PaggingButtonGroup", Model.Pagging)
+
+    </div>
+
+</div>

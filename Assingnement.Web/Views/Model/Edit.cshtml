@@ -1,0 +1,88 @@
+﻿@model Assingnement.Data.ViewModel.ModelEditVM
+
+@{
+    bool isNewRecord = Model == null || Model.Id == Guid.Empty;
+    string name = "Model";
+
+    var brandList = (List<SelectListItem>)ViewData["BrandList"]??new List<SelectListItem>();
+
+    if (!isNewRecord)
+    {
+        var selected = brandList.Where(a => a.Value == Model.Rec.BrandId.ToString().ToUpper()).FirstOrDefault();
+        brandList.Remove(selected);
+
+        selected.Selected = true;
+
+        brandList.Add(selected);
+
+        brandList = brandList.OrderBy(o => o.Text).ToList();
+    }
+
+}
+
+@if (isNewRecord)
+{
+    <h2>New @name</h2>
+}
+else
+{
+    <h2>Edit @name</h2>
+}
+
+@using (Html.BeginForm("edit"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationMessageFor(model => model.GeneralError)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rec.Name)
+        @Html.EditorFor(model => model.Rec.Name, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Rec.Name, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rec.Year)
+        @Html.EditorFor(model => model.Rec.Year, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Rec.Year, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rec.EngineCapacity)
+        @Html.EditorFor(model => model.Rec.EngineCapacity, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Rec.EngineCapacity, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rec.HoursePower)
+        @Html.EditorFor(model => model.Rec.HoursePower, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Rec.HoursePower, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BrandIdStr)
+        @Html.DropDownListFor(model => model.BrandIdStr, brandList, "", new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.BrandIdStr, "", new { @class = "text-danger" })
+    </div>
+
+    @Html.Hidden("Rec.Id", Model.Id)
+
+    <input type="submit" value="@(!isNewRecord? "Update": "Create")" class="btn btn-success btn-lg" />
+}
+
+<br />
+
+<div>
+    @Html.ActionLink("Back to List", "Index", name)
+    <br />
+    @if (!isNewRecord)
+    {
+        @Html.ActionLink("Delete", "Delete", name, new { id = Model.Id })
+    }
+</div>
+
+<br />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

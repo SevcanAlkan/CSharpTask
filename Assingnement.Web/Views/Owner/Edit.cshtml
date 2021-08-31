@@ -1,0 +1,61 @@
+﻿@model Assingnement.Data.ViewModel.OwnerEditVM
+
+@{
+    bool isNewRecord = Model == null || Model.Id == Guid.Empty;
+    string name = "Owner";
+}
+
+@if (isNewRecord)
+{
+    <h2>New @name</h2>
+}
+else
+{
+    <h2>Edit @name</h2>
+}
+
+@using (Html.BeginForm("edit"))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.ValidationMessageFor(model => model.GeneralError)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rec.FirstName)
+        @Html.EditorFor(model => model.Rec.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Rec.FirstName, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rec.LastName)
+        @Html.EditorFor(model => model.Rec.LastName, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Rec.LastName, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rec.BirthDate)
+        @Html.EditorFor(model => model.Rec.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Rec.BirthDate, "", new { @class = "text-danger" })
+    </div>
+
+    @Html.Hidden("Rec.Id", Model.Id)
+
+    <input type="submit" value="@(!isNewRecord? "Update": "Create")" class="btn btn-success btn-lg" />
+}
+
+<br />
+
+<div>
+    @Html.ActionLink("Back to List", "Index", name)
+    <br />
+    @if (!isNewRecord)
+    {
+        @Html.ActionLink("Delete", "Delete", name, new { id = Model.Id })
+    }
+</div>
+
+<br />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

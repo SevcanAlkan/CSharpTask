@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="Sentry" Version="3.9.0" />
+    <PackageReference Include="Sentry.AspNetCore" Version="3.9.0" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Assingnement.Core\Assingnement.Core.csproj" />
+    <ProjectReference Include="..\Assingnement.Data\Assingnement.Data.csproj" />
+    <ProjectReference Include="..\Assingnement.Domain\Assingnement.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

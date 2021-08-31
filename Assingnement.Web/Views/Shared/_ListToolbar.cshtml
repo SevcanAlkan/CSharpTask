@@ -1,0 +1,146 @@
+﻿@using Assingnement.Data.ViewModel
+@model CarToolbarVM
+
+@{
+    var selectedBrand = ViewData["BrandId"] != null ? Model.Brands.Where(a => a.Id == ViewData["BrandId"] as Guid?).FirstOrDefault() : null;
+    string brandTitle = "Brand";
+
+    if (selectedBrand != null)
+    {
+        brandTitle = selectedBrand.DisplayText;
+    }
+
+    var selectedModel = ViewData["ModelId"] != null ? Model.Models.Where(a => a.Id == ViewData["ModelId"] as Guid?).FirstOrDefault() : null;
+    string modelTitle = "Model";
+
+    if (selectedModel != null)
+    {
+        modelTitle = selectedModel.DisplayText;
+    }
+
+    var selectedOwner = ViewData["OwnerId"] != null ? Model.Owners.Where(a => a.Id == ViewData["OwnerId"] as Guid?).FirstOrDefault() : null;
+    string ownerTitle = "Owner";
+
+    if (selectedOwner != null)
+    {
+        ownerTitle = selectedOwner.DisplayText;
+    }
+}
+
+<div class="row">
+    <div class="col">
+
+        <nav class="navbar navbar-light bg-light">
+
+            <div class="container-fluid justify-content-start">
+
+                @if (Model.Brands != null && Model.Brands.Count > 0)
+                {
+                    <form class="form-inline" style="margin-right: 1rem;">
+                        <div id="brand-dropdown" class="dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                    id="brand-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @brandTitle
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="brand-dropdown-button">
+                                <a class="dropdown-item" asp-action="List"
+                                   asp-controller="Car"
+                                   asp-route-brandId="@null"
+                                   asp-route-modelId="@ViewData["ModelId"]"
+                                   asp-route-ownerId="@ViewData["OwnerId"]"
+                                   asp-route-pageNumber="1">-Select-</a>
+
+                                @foreach (var item in Model.Brands)
+                                {
+                                    <a class="dropdown-item"
+                                       id="@item.Id"
+                                       asp-controller="Car"
+                                       asp-action="List"
+                                       asp-route-brandId="@item.Id"
+                                       asp-route-modelId="@ViewData["ModelId"]"
+                                       asp-route-ownerId="@ViewData["OwnerId"]"
+                                       asp-route-pageNumber="1">@item.DisplayText</a>
+                                }
+
+                            </div>
+                        </div>
+                    </form>
+                }
+
+                @if (Model.Models != null && Model.Models.Count > 0)
+                {
+                    <form class="form-inline" style="margin-right: 1rem;">
+                        <div id="model-dropdown" class="dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                    id="model-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @modelTitle
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="model-dropdown-button">
+                                <a class="dropdown-item" asp-action="List"
+                                   asp-controller="Car"
+                                   asp-route-brandId="@ViewData["BrandId"]"
+                                   asp-route-modelId="@null"
+                                   asp-route-ownerId="@ViewData["OwnerId"]"
+                                   asp-route-pageNumber="1">-Select-</a>
+
+                                @foreach (var item in Model.Models)
+                                {
+                                    <a class="dropdown-item"
+                                       id="@item.Id"
+                                       asp-controller="Car"
+                                       asp-action="List"
+                                       asp-route-brandId="@ViewData["BrandId"]"
+                                       asp-route-modelId="@item.Id"
+                                       asp-route-ownerId="@ViewData["OwnerId"]"
+                                       asp-route-pageNumber="1">@item.DisplayText</a>
+                                }
+
+                            </div>
+                        </div>
+                    </form>
+                }
+
+                @if (Model.Owners != null && Model.Owners.Count > 0)
+                {
+                    <form class="form-inline" style="margin-right: 1rem;">
+                        <div id="Owner-dropdown" class="dropdown">
+                            <button class="btn btn-outline-primary dropdown-toggle" type="button"
+                                    id="Owner-dropdown-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @ownerTitle
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="Owner-dropdown-button">
+                                <a class="dropdown-item" asp-action="List"
+                                   asp-controller="Car"
+                                   asp-route-brandId="@ViewData["BrandId"]"
+                                   asp-route-modelId="@ViewData["ModelId"]"
+                                   asp-route-ownerId="@null"
+                                   asp-route-pageNumber="1">-Select-</a>
+
+                                @foreach (var item in Model.Owners)
+                                {
+                                    <a class="dropdown-item"
+                                       id="@item.Id"
+                                       asp-controller="Car"
+                                       asp-action="List"
+                                       asp-route-brandId="@ViewData["BrandId"]"
+                                       asp-route-modelId="@ViewData["ModelId"]"
+                                       asp-route-ownerId="@item.Id"
+                                       asp-route-pageNumber="1">@item.DisplayText</a>
+                                }
+
+                            </div>
+                        </div>
+                    </form>
+                }
+
+                <form class="form-inline">
+                    <a asp-controller="Car" asp-action="List" style="margin-left: 0.5rem">Clear</a>
+                </form>
+
+            </div>
+        </nav>
+
+    </div>
+</div>
+
+<br />

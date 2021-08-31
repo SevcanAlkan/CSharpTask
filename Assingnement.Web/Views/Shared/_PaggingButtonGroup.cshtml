@@ -1,0 +1,60 @@
+﻿@using Assingnement.Core.ViewModel
+@model PaggingVM
+
+@if (Model.ControllerName.Equals("Car"))
+{
+    <div class="row">
+        <div class="col">
+            <div class="btn-group" role="group">
+                <a type="button" aria-disabled="true"
+                    asp-controller="@Model.ControllerName"
+                    asp-action="@Model.ActionName"
+
+                    asp-route-pageNumber="@(ViewData["PageNumber"]!= null && (ViewData["PageNumber"] as int?).Value > 1 ? (ViewData["PageNumber"] as int?).Value - 1 : 1 )"
+
+                    asp-route-brandId="@ViewData["BrandId"]"
+                    asp-route-modelId="@ViewData["ModelId"]"
+                    asp-route-ownerId="@ViewData["OwnerId"]"
+
+                    class="@(ViewData["PageNumber"]!= null && (ViewData["PageNumber"] as int?).Value > 1 ? "btn btn-light" : "btn btn-light disabled")">
+                    Previous
+                </a>
+                <a type="button" aria-disabled="true"
+                    asp-controller="@Model.ControllerName"
+                    asp-action="@Model.ActionName"
+
+                    asp-route-brandId="@ViewData["BrandId"]"
+                    asp-route-modelId="@ViewData["ModelId"]"
+                    asp-route-ownerId="@ViewData["OwnerId"]"
+
+                    asp-route-pageNumber="@(Model.IsNextPageExist ? (ViewData["PageNumber"]!= null ? (ViewData["PageNumber"] as int?).Value + 1 : 2) : 1 )"
+                    class="@(Model.IsNextPageExist? "btn btn-light" : "btn btn-light disabled")">
+                    Next
+                </a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col">
+            <div class="btn-group" role="group">
+                <a type="button" aria-disabled="true"
+                    asp-controller="@Model.ControllerName"
+                    asp-action="@Model.ActionName"
+                    asp-route-pageNumber="@(ViewData["PageNumber"]!= null && (ViewData["PageNumber"] as int?).Value > 1 ? (ViewData["PageNumber"] as int?).Value - 1 : 1 )"
+                    class="@(ViewData["PageNumber"]!= null && (ViewData["PageNumber"] as int?).Value > 1 ? "btn btn-light" : "btn btn-light disabled")">
+                    Previous
+                </a>
+                <a type="button" aria-disabled="true"
+                    asp-controller="@Model.ControllerName"
+                    asp-action="@Model.ActionName"
+                    asp-route-pageNumber="@(Model.IsNextPageExist ? (ViewData["PageNumber"]!= null ? (ViewData["PageNumber"] as int?).Value + 1 : 2) : 1 )"
+                    class="@(Model.IsNextPageExist? "btn btn-light" : "btn btn-light disabled")">
+                    Next
+                </a>
+            </div>
+        </div>
+    </div>
+}
